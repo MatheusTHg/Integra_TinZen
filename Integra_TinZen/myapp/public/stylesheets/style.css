@@ -1,0 +1,252 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+body {
+  width: 100%;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* Estilo para o burger menu - Somente para mobile */
+.burger-menu {
+  display: none; /* Escondido por padrão */
+  cursor: pointer;
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  z-index: 1000; /* Garante que o menu burger esteja sobre outros elementos */
+}
+
+.burger-menu span {
+  display: block;
+  width: 25px;
+  height: 3px;
+  margin: 5px;
+  background-color: #333;
+  transition: 0.4s;
+}
+
+/* Estilo para a sidebar - Mobile */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: -250px; /* Começa fora da tela */
+  width: 250px;
+  height: 100%;
+  background-color: #333;
+  color: white;
+  transition: transform 0.3s ease; /* Transição suave */
+  z-index: 999; /* Garante que a sidebar esteja sobre outros elementos */
+}
+
+.sidebar.active {
+  left: 0; /* Move a sidebar para dentro da tela */
+}
+
+/* Estilos básicos para o menu burger */
+.burger-menu {
+  display: block; /* Exibe o menu burger em telas menores */
+}
+
+.burger-menu.active span:nth-child(1) {
+  transform: rotate(-45deg);
+  top: 8px;
+}
+
+.burger-menu.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.burger-menu.active span:nth-child(3) {
+  transform: rotate(45deg);
+  top: -8px;
+}
+
+/* Menu lateral para telas pequenas */
+@media (max-width: 768px) {
+  .burger-menu {
+    display: block; /* Exibe o menu burger em telas menores */
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px; /* Começa fora da tela */
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    transition: transform 0.3s ease;
+  }
+
+  .sidebar.active {
+    left: 0; /* Move a sidebar para dentro da tela */
+  }
+
+  .main-content {
+    margin-left: 0; /* Remove o espaço para telas pequenas */
+  }
+}
+
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #ecf0f1;
+  transition: margin-left 0.3s ease; /* Transição suave */
+}
+
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar li {
+  margin: 20px 0;
+}
+
+.sidebar a {
+  text-decoration: none;
+  color: #ecf0f1;
+  font-size: 18px;
+  display: block;
+  padding: 10px;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.sidebar a:hover {
+  background-color: #34495e;
+}
+
+.bottom-section {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.import-form {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 600px;
+}
+
+.import-form label {
+  margin: 10px 0 5px;
+  font-size: 16px;
+  color: #333;
+}
+
+.import-form input[type="date"],
+.import-form input[type="number"] {
+  padding: 10px;
+  border: 1px solid #bdc3c7;
+  border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 20px;
+  width: 100%;
+}
+
+.import-form button {
+  background-color: #2980b9;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  margin-top: 10px;
+} 
+
+.import-form button:hover {
+  background-color: #3498db;
+}
+
+.import-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.import-options label, .import-options input, .import-options button {
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+.notas-list {
+  margin-top: 20px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
+  overflow-x: auto;
+}
+
+.notas-list table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.notas-list th,
+.notas-list td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ccc;
+}
+
+.notas-list th {
+  background-color: #3498db;
+  color: #fff;
+}
+
+.notas-list td:first-child {
+  text-align: center;
+}
+
+.pagination {
+  margin-top: 20px;
+  text-align: center;
+}
+
+.pagination a {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 10px;
+  text-decoration: none;
+  color: #007bff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.pagination a:hover {
+  background-color: #f8f9fa;
+}
+
+.pagination span {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}

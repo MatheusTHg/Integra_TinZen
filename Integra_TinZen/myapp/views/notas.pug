@@ -1,0 +1,45 @@
+doctype html
+html(lang="en")
+  head
+    include head.pug
+
+    script(src="/javascripts/importar_notas.js")
+    script(src="/javascripts/remover_notas.js")
+  body
+    include sidebar.pug
+    .main-content
+      .bottom-section
+        form.import-form
+          .import-options
+            label(for="numeroNota") Número Nota Fiscal:
+            input(type="text" id="numeroNota" name="numeroNota")
+            button(type="button" id="importButton") Importar
+            button(type="button" id="exportButton") Exportar
+            button(type="button" id="removeButton") Remover Selecionadas
+            p#successMessage(style="display: none; color: green;") Importação bem sucedida!
+            p#errorMessage(style="display: none; color: red;") Erro ao importar as notas fiscais.
+            p#successRemove(style="display: none; color: green;") Remoção bem sucedida!
+            p#errorRemove(style="display: none; color: red;") Erro ao remover as notas fiscais
+        .notas-list
+          tr 
+            th
+              h2 Lista de Notas Fiscais Importadas
+          table
+            thead
+              tr
+                th Selecionar
+                th Número Nota Fiscal
+                th Chave Nota Fiscal
+            tbody
+              each nota in notasFiscais
+                tr
+                  td
+                    input(type="checkbox" value=nota.numero)
+                  td= nota.numero
+                  td= nota.chave_acesso
+          .pagination
+            if currentPage > 1
+              a(href=`/notas?page=${currentPage - 1}`) Anterior
+            span Página #{currentPage} de #{totalPages}
+            if currentPage < totalPages
+              a(href=`/notas?page=${currentPage + 1}`) Próximo

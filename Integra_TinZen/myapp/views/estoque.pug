@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    script(src="/javascripts/consultar_estoque.js")
+
+    include head.pug
+  body
+    include sidebar.pug
+
+    .main-content
+      .bottom-section
+        h1 Estoque
+        
+        form(action="/estoque" method="get")
+          input(type="text" name="id" placeholder="Digite o ID do produto" required)
+          button(type="submit") Consultar Estoque
+        
+        if resultadoBusca.mensagem
+          p #{resultadoBusca.mensagem}
+        else if resultadoBusca.produtos.length > 0
+          ul
+            each produto in resultadoBusca.produtos
+              li Saldo do ID #{produto.id}: #{produto.saldo}
+        else
+          p Nenhum produto encontrado para o ID #{resultadoBusca.id}
