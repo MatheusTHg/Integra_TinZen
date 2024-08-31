@@ -7,4 +7,3 @@ document.addEventListener('DOMContentLoaded', function() {
       burgerMenu.classList.toggle('active');
     });
   });
-  
