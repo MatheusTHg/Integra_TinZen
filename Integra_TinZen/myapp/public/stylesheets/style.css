@@ -15,14 +15,13 @@ body {
   overflow-x: hidden;
 }
 
-/* Estilo para o burger menu - Somente para mobile */
 .burger-menu {
-  display: none; /* Escondido por padrão */
+  display: none; 
   cursor: pointer;
   position: absolute;
   top: 15px;
   left: 15px;
-  z-index: 1000; /* Garante que o menu burger esteja sobre outros elementos */
+  z-index: 1000;
 }
 
 .burger-menu span {
@@ -38,22 +37,21 @@ body {
 .sidebar {
   position: fixed;
   top: 0;
-  left: -250px; /* Começa fora da tela */
+  left: -250px;
   width: 250px;
   height: 100%;
   background-color: #333;
   color: white;
-  transition: transform 0.3s ease; /* Transição suave */
-  z-index: 999; /* Garante que a sidebar esteja sobre outros elementos */
+  transition: transform 0.3s ease; 
+  z-index: 999; 
 }
 
 .sidebar.active {
-  left: 0; /* Move a sidebar para dentro da tela */
+  left: 0; 
 }
 
-/* Estilos básicos para o menu burger */
 .burger-menu {
-  display: block; /* Exibe o menu burger em telas menores */
+  display: block;
 }
 
 .burger-menu.active span:nth-child(1) {
@@ -70,16 +68,15 @@ body {
   top: -8px;
 }
 
-/* Menu lateral para telas pequenas */
 @media (max-width: 768px) {
   .burger-menu {
-    display: block; /* Exibe o menu burger em telas menores */
+    display: block; 
   }
 
   .sidebar {
     position: fixed;
     top: 0;
-    left: -250px; /* Começa fora da tela */
+    left: -250px; 
     width: 250px;
     height: 100%;
     background-color: #333;
@@ -88,11 +85,11 @@ body {
   }
 
   .sidebar.active {
-    left: 0; /* Move a sidebar para dentro da tela */
+    left: 0; 
   }
 
   .main-content {
-    margin-left: 0; /* Remove o espaço para telas pequenas */
+    margin-left: 0; 
   }
 }
 
@@ -102,7 +99,7 @@ body {
   flex-direction: column;
   padding: 20px;
   background-color: #ecf0f1;
-  transition: margin-left 0.3s ease; /* Transição suave */
+  transition: margin-left 0.3s ease; 
 }
 
 .sidebar ul {

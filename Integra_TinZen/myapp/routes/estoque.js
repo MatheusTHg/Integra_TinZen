@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 
 async function obterEstoque(id) {
-  const url = 'https://api.zenlog.com.br/api/services/app/PosicaoEstoqueAnalitico/GetAll';
+  const url = 'https://api.zenlog.com.br/api/services/app/PosicaoEstoque/GetAll';
   const token = ''; // Substitua pela sua chave de API
   const formato = 'JSON';
 
