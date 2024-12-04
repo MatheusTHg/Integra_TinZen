@@ -2,9 +2,7 @@ doctype html
 html(lang="en")
   head
     include head.pug
-
-    script(src="/javascripts/importar_notas.js")
-    script(src="/javascripts/remover_notas.js")
+    link(rel="stylesheet" href="/stylesheets/style.css")
   body
     include sidebar.pug
     .main-content
@@ -19,7 +17,11 @@ html(lang="en")
             p#successMessage(style="display: none; color: green;") Importação bem sucedida!
             p#errorMessage(style="display: none; color: red;") Erro ao importar as notas fiscais.
             p#successRemove(style="display: none; color: green;") Remoção bem sucedida!
-            p#errorRemove(style="display: none; color: red;") Erro ao remover as notas fiscais
+            p#errorRemove(style="display: none; color: red;") Erro ao remover as notas fiscais.
+            p#successMessage(style="display: none; color: green;") Exportação realizada com sucesso!
+            p#errorMessage(style="display: none; color: red;") Erro ao exportar as notas fiscais.
+            p#errorMessageExport(style="display: none; color: red;") Erro ao exportar as notas fiscais.
+            p#successMessageExport(style="display: none; color: green;") Exportação realizada com sucesso!
         .notas-list
           tr 
             th
@@ -34,12 +36,16 @@ html(lang="en")
               each nota in notasFiscais
                 tr
                   td
-                    input(type="checkbox" value=nota.numero)
+                      input(type="checkbox" value=nota.numero data-chave=nota.chave_acesso)
                   td= nota.numero
                   td= nota.chave_acesso
-          .pagination
-            if currentPage > 1
-              a(href=`/notas?page=${currentPage - 1}`) Anterior
-            span Página #{currentPage} de #{totalPages}
-            if currentPage < totalPages
-              a(href=`/notas?page=${currentPage + 1}`) Próximo
+        .pagination
+          if currentPage > 1
+            a(href=`/notas?page=${currentPage - 1}`) Anterior
+          span Página #{currentPage} de #{totalPages}
+          if currentPage < totalPages
+            a(href=`/notas?page=${currentPage + 1}`) Próximo
+
+    script(src="/javascripts/importar_notas.js")
+    script(src="/javascripts/remover_notas.js")
+    script(src="/javascripts/exportar_notas.js")

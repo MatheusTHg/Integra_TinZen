@@ -2,24 +2,36 @@ doctype html
 html
   head
     script(src="/javascripts/consultar_estoque.js")
-
     include head.pug
   body
     include sidebar.pug
-
     .main-content
       .bottom-section
         h1 Estoque
-        
-        form(action="/estoque" method="get")
-          input(type="text" name="id" placeholder="Digite o ID do produto" required)
-          button(type="submit") Consultar Estoque
-        
-        if resultadoBusca.mensagem
-          p #{resultadoBusca.mensagem}
-        else if resultadoBusca.produtos.length > 0
-          ul
-            each produto in resultadoBusca.produtos
-              li Saldo do ID #{produto.id}: #{produto.saldo}
-        else
-          p Nenhum produto encontrado para o ID #{resultadoBusca.id}
+        form.import-form(action="/estoque" method="get")
+          .import-options
+            label(for="id") ID do Produto:
+            input(type="text" name="id" id="id" placeholder="Digite o ID do produto" required)
+            button(type="submit") Consultar Estoque
+          p#successMessage(style="display: none; color: green;") Consulta realizada com sucesso!
+          p#errorMessage(style="display: none; color: red;") Erro ao consultar o estoque.
+        .notas-list
+          tr 
+            th
+              h2 Lista de Produtos no Estoque
+          table
+            thead
+              tr
+                th ID do Produto
+                th Saldo
+            tbody
+              if resultadoBusca.produtos.length > 0
+                each produto in resultadoBusca.produtos
+                  tr
+                    td= produto.id
+                    td= produto.saldo
+              else
+                tr
+                  td(colspan="2") Nenhum produto encontrado para o ID especificado.
+
+    script(src="/javascripts/consultar_estoque.js")

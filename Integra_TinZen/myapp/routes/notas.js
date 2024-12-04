@@ -26,19 +26,17 @@ async function getNotasFiscais() {
 
 /* GET notas listing. */
 router.get('/', async function (req, res, next) {
-    const page = parseInt(req.query.page) || 1; // Página atual
-    const pageSize = 10; // Número de itens por página
-    const offset = (page - 1) * pageSize; // Calcula o offset
+    const page = parseInt(req.query.page) || 1; 
+    const pageSize = 10; 
+    const offset = (page - 1) * pageSize; 
 
     try {
-        // Consulta SQL para obter as notas fiscais com paginação
         const [rows] = await pool.query(`
             SELECT nf.numero, nf.chave_acesso, i.codigo 
             FROM notas_fiscais nf 
             LEFT JOIN itens i ON nf.id = i.nota_fiscal_id 
             LIMIT ? OFFSET ?`, [pageSize, offset]);
 
-        // Contar o total de registros
         const [[{ total }]] = await pool.query(`
             SELECT COUNT(*) as total 
             FROM notas_fiscais nf 
@@ -46,7 +44,6 @@ router.get('/', async function (req, res, next) {
 
         const totalPages = Math.ceil(total / pageSize);
 
-        // Renderize a view 'notas' e passe as notas fiscais e informações de paginação para o template
         res.render('notas', { 
             title: 'Integra TinZen - Notas Fiscais', 
             notasFiscais: rows,
@@ -69,15 +66,21 @@ router.delete("/", async (req, res) => {
 
     let connection;
     try {
-        // Iniciar uma conexão e transação
         connection = await pool.getConnection();
         await connection.beginTransaction();
 
-        // Obter os IDs das notas fiscais com base nos números fornecidos
         const [rows] = await connection.query(
-            'SELECT id FROM notas_fiscais WHERE numero IN (?)',
+            'SELECT id, integracao FROM notas_fiscais WHERE numero IN (?)',
             [notasNumeros]
         );
+
+        const notasNaoDeletadas = rows.filter(row => row.integracao === 1);
+
+        if (notasNaoDeletadas.length > 0) {
+            return res.status(400).json({
+                error: `As notas fiscais com os números ${notasNaoDeletadas.map(nota => nota.numero).join(', ')} não podem ser removidas, pois já foram integradas.`
+            });
+        }
 
         const ids = rows.map(row => row.id);
 
@@ -86,13 +89,9 @@ router.delete("/", async (req, res) => {
             return res.status(404).json({ error: "Nenhuma nota fiscal encontrada para remoção" });
         }
 
-        // Remover itens vinculados às notas fiscais
         await connection.query('DELETE FROM itens WHERE nota_fiscal_id IN (?)', [ids]);
-
-        // Remover as notas fiscais
         await connection.query('DELETE FROM notas_fiscais WHERE id IN (?)', [ids]);
 
-        // Commit da transação
         await connection.commit();
 
         res.status(200).json({ message: "Notas fiscais e itens removidos com sucesso!" });
@@ -104,5 +103,5 @@ router.delete("/", async (req, res) => {
         if (connection) connection.release();
     }
 });
-
+    
 module.exports = router;

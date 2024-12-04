@@ -2,8 +2,25 @@ doctype html
 html
   head
     include head.pug
+    script(src="https://cdn.jsdelivr.net/npm/chart.js")
+    link(rel="stylesheet" href="/stylesheets/style.css")
   body
-  include sidebar.pug
-  .main-content
-    .bottom-section
-      | Principal
+    include sidebar.pug
+    .main-content
+      .bottom-section
+        h1 Dashboard de Notas Fiscais
+        .dashboard
+          .chart-container
+            h2 Notas Fiscais Importadas (Últimos 6 Meses)
+            canvas#notasImportadasChart
+          .chart-container
+            h2 Distribuição de Categorias de Notas Fiscais
+            canvas#dadosSimbolicosChart
+          .chart-container
+            h2 Tendência de Exportação de Notas Fiscais
+            canvas#trendLineChart
+          .chart-container
+            h2 Comparação de Performance entre Categorias
+            canvas#radarChart
+
+    script(src="/javascripts/dashboard.js")

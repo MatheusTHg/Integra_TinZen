@@ -4,7 +4,7 @@ const axios = require("axios");
 const mysql = require("mysql2/promise");
 
 const urlPesquisa = "https://api.tiny.com.br/api2/notas.fiscais.pesquisa.php";
-const token = ""; // Insira o token da API aqui
+const token = "";
 const urlObter = "https://api.tiny.com.br/api2/nota.fiscal.obter.php";
 
 // Configuração da conexão com o banco de dados
@@ -65,7 +65,6 @@ async function salvarDadosNoBanco(detalhesNota, itens, transportadora) {
   try {
     connection = await mysql.createConnection(dbConfig);
 
-    // Verificar se a nota fiscal já existe no banco de dados
     const [existingNote] = await connection.execute(
       `SELECT * FROM notas_fiscais WHERE numero = ?`,
       [detalhesNota.numero]
@@ -75,10 +74,8 @@ async function salvarDadosNoBanco(detalhesNota, itens, transportadora) {
       throw new Error(`Nota fiscal ${detalhesNota.numero} já importada.`);
     }
 
-    // Iniciar uma transação para garantir a consistência dos dados
     await connection.beginTransaction();
 
-    // Inserir os dados da nota fiscal na tabela 'notas_fiscais'
     const [resultNota] = await connection.execute(
       `INSERT INTO notas_fiscais 
             (numero, chave_acesso, situacao, descricao_situacao, serie, nome, data_emissao, transportadora) 
@@ -113,21 +110,17 @@ async function salvarDadosNoBanco(detalhesNota, itens, transportadora) {
       );
     }
 
-    // Commit da transação
     await connection.commit();
   } catch (error) {
-    // Rollback em caso de erro
     if (connection) await connection.rollback();
-    throw error; // Lançar o erro para ser capturado na chamada da função
+    throw error; 
   } finally {
-    // Fechar a conexão
     if (connection) await connection.end();
   }
 }
 
 async function processarResposta(response) {
   if (!response || !response.retorno || !response.retorno.notas_fiscais) {
-    // Se existir um erro detalhado na resposta, mostre-o
     if (response && response.retorno && response.retorno.erros) {
       throw new Error(`Erro na resposta da API: ${JSON.stringify(response.retorno.erros, null, 2)}`);
     }
